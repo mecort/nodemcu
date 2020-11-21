@@ -46,9 +46,36 @@ def dummy():
 
     return response_template % body
 
+
+pin = machine.Pin(5, machine.Pin.OUT)
+switch_pin = machine.Pin(10, machine.Pin.IN)
+adc = machine.ADC(0)
+
+def light_on():
+    pin.value(1)
+    body = "You turned a light on!"
+    return response_template % body
+
+def light_off():
+    pin.value(0)
+    body = "You turned a light off!"
+    return response_template % body
+
+def switch():
+    body = "{state: " + str(switch_pin.value()) + "}"
+    return response_template % body
+
+def light():
+    body = "{Photoresistor value: " + str(adc.read()) + "}"
+    return response_template % body
+
 handlers = {
     'time': time,
     'dummy': dummy,
+    'light_on': light_on,
+    'light_off': light_off,
+    'switch': switch,
+    'light': light,
 }
 
 def main():
